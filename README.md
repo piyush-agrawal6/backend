@@ -89,7 +89,7 @@ To get the Node server running locally:
 ```
 
 | Parameter | Type     | Body                       |Responce|
-| :-------- | :------- | :----------------- | | :-------------------------------- |
+| :-------- | :------- | :----------------- | :-------------------------------- |
 | `id`      | `string` | Flight Id  | Flight Array |
 
 #### Get all bookings
@@ -98,7 +98,7 @@ To get the Node server running locally:
 ```
 
 | Parameter | Type     | Body                       |Responce|
-| :-------- | :------- | :----------------- | | :-------------------------------- |
+| :-------- | :------- | :----------------- | :-------------------------------- |
 |       | |   | Bookings Array |
 
 #### Edit Flight
