@@ -4,7 +4,6 @@ require("dotenv").config();
 const cors = require("cors");
 
 const { userRouter } = require("./routes/Users.route");
-const { authenticate } = require("./middlewares/authenticate.middleware");
 const { postRouter } = require("./routes/Posts.route");
 
 const app = express();
@@ -15,9 +14,7 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Home page");
 });
-
-app.use("/users", userRouter);
-app.use(authenticate);
+app.use("/api", userRouter);
 app.use("/posts", postRouter);
 
 app.listen(process.env.port, async () => {

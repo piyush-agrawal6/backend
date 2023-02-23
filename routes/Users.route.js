@@ -1,39 +1,35 @@
-const express = require("express");
+require("dotenv").config();
 const { UserModel } = require("../models/User.model");
+const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const {
-  registervalidator,
-} = require("../middlewares/registervalidator.middleware");
-const { loginvalidator } = require("../middlewares/loginvalidator.middleware");
-
 const userRouter = express.Router();
 
-userRouter.post("/register", registervalidator, async (req, res) => {
-  const { name, email, gender, password } = req.body;
+const { loginValidate } = require("../middlewares/loginValidator");
+const { registerValidate } = require("../middlewares/registerValidator");
+
+userRouter.post("/register", registerValidate, async (req, res) => {
+  const { name, email, password } = req.body;
   try {
-    bcrypt.hash(password, 5, async (err, secure_password) => {
+    bcrypt.hash(password, 5, async (err, safe_pass) => {
       if (err) {
         console.log(err);
       } else {
         const user = new UserModel({
           name,
           email,
-          gender,
-          password: secure_password,
+          password: safe_pass,
         });
         await user.save();
       }
     });
   } catch (error) {
-    console.log("Some Error occurred, unable to Register.");
     console.log(error);
   }
   res.status(200).send("Registration Successful");
 });
 
-userRouter.post("/login", loginvalidator, async (req, res) => {
+userRouter.post("/login", loginValidate, async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await UserModel.find({ email });
@@ -44,14 +40,13 @@ userRouter.post("/login", loginvalidator, async (req, res) => {
           const token = jwt.sign({ userID: user[0]._id }, process.env.key, {
             expiresIn: "1h",
           });
-          res.status(200).send({ msg: "Login Successful", token: token });
+          res.status(200).send({ message: "Login Successful", token: token });
         } else {
-          res.status(400).send("Wrong credentials, please try again.");
+          res.status(400).send("Wrong credentials");
         }
       });
     }
   } catch (error) {
-    console.log("Some Error occurred, unable to Login.");
     console.log(error);
   }
 });
