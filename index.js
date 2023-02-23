@@ -4,7 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 
 const { userRouter } = require("./routes/Users.route");
-const { postRouter } = require("./routes/Posts.route");
+const { flightRouter } = require("./routes/Flight.route");
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("Home page");
 });
 app.use("/api", userRouter);
-app.use("/posts", postRouter);
+app.use("/api", flightRouter);
 
 app.listen(process.env.port, async () => {
   try {
