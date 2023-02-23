@@ -8,6 +8,7 @@ const userRouter = express.Router();
 const { loginValidate } = require("../middlewares/loginValidator");
 const { registerValidate } = require("../middlewares/registerValidator");
 
+//user register
 userRouter.post("/register", registerValidate, async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -26,9 +27,10 @@ userRouter.post("/register", registerValidate, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  res.status(200).send("Registration Successful");
+  res.status(201).send("Registration Successful");
 });
 
+//user login
 userRouter.post("/login", loginValidate, async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -40,7 +42,7 @@ userRouter.post("/login", loginValidate, async (req, res) => {
           const token = jwt.sign({ userID: user[0]._id }, process.env.key, {
             expiresIn: "1h",
           });
-          res.status(200).send({ message: "Login Successful", token: token });
+          res.status(201).send({ message: "Login Successful", token: token });
         } else {
           res.status(400).send("Wrong credentials");
         }
