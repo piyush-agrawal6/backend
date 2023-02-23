@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const { userRouter } = require("./routes/Users.route");
 const { flightRouter } = require("./routes/Flight.route");
+const { Book } = require("./routes/Book.route");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api", userRouter);
 app.use("/api", flightRouter);
+app.use("/api", Book);
 
 app.listen(process.env.port, async () => {
   try {
